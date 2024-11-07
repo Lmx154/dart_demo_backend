@@ -18,6 +18,13 @@ var websiteUrl = Environment.GetEnvironmentVariable("WebsiteUrl");
 
 var app = builder.Build();
 
+// Apply any pending migrations
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    dbContext.Database.Migrate();
+}
+
 app.MapControllers();
 
 app.Run();
