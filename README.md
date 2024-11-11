@@ -28,6 +28,19 @@ If you are not using the database I made, you should still be able to make one u
 dotnet ef migrations add InitialCreate
 ```
 
+## Testing with Postman
+- Select POST on request setting, then place this in the URL http://localhost:5146/api/Leaderboard
+- After this go to body. Select RAW and JSON as the type. 
+Paste this into body (Change the fields accordingly)
+
+{
+  "PlayerId": 1,
+  "Username": "Player1",
+  "PlayerScore": 100
+}
+
+Press send. If it gives you errors check the port and/or the database config in .env.
+
 ## DotNet Specs for this project
    [net8.0]: 
    Top-level Package                            Requested   Resolved
