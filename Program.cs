@@ -23,6 +23,10 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddControllers();
 
+// Add Swagger services
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 // Add a configuration variable for the website URL
 var websiteUrl = Environment.GetEnvironmentVariable("WebsiteUrl") ?? 
                  builder.Configuration["WebsiteUrl"];
@@ -38,6 +42,17 @@ using (var scope = app.Services.CreateScope())
 
 // Enable CORS
 app.UseCors("AllowAll");
+
+// Enable Swagger middleware
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyBackend API V1");
+        c.RoutePrefix = string.Empty; // Set Swagger UI at the app's root
+    });
+}
 
 app.MapControllers();
 
