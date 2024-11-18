@@ -30,6 +30,9 @@ namespace MyBackend.Controllers
         [HttpPost]
         public async Task<ActionResult<LeaderboardEntry>> PostLeaderboardEntry(LeaderboardEntry entry)
         {
+            // Remove the PlayerId if it is set by the client
+            entry.PlayerId = 0;
+
             _context.LeaderboardEntries.Add(entry);
             await _context.SaveChangesAsync();
 
