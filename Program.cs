@@ -1,25 +1,18 @@
 using Microsoft.EntityFrameworkCore;
 using MyBackend.Data;
-using DotNetEnv;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Load environment variables from .env file
-Env.Load();
+// Hardcode environment variables
+var websiteUrl = "https://rocketcs.web.app";
+var connectionString = "Host=ep-dark-violet-a5oxgnzd.us-east-2.aws.neon.tech;Database=neondb;Username=neondb_owner;Password=EL9axqWIU6rM;sslmode=require";
 
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Add a configuration variable for the website URL
-var websiteUrl = Environment.GetEnvironmentVariable("WEBSITE_URL") ?? 
-                 builder.Configuration["WebsiteUrl"];
-
 // Add the connection string
-var connectionString = Environment.GetEnvironmentVariable("DEFAULT_CONNECTION") ?? 
-                       builder.Configuration.GetConnectionString("DefaultConnection");
-
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));
 
