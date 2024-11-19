@@ -37,16 +37,13 @@ using (var scope = app.Services.CreateScope())
 // Enable CORS
 app.UseCors("AllowAll");
 
-// Enable Swagger middleware
-if (app.Environment.IsDevelopment())
+// Enable Swagger middleware for both development and production
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyBackend API V1");
-        c.RoutePrefix = string.Empty; // Set Swagger UI at the app's root
-    });
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "MyBackend API V1");
+    c.RoutePrefix = string.Empty; // Set Swagger UI at the app's root
+});
 
 app.MapControllers();
 
