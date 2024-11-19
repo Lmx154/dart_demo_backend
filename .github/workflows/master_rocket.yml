@@ -51,9 +51,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_3F9619523BF44FD3880AC2BF5F376C98 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_79807F79F2634FED8AAE4BA184A9B562 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_59F2E42BA6B146C9973D06441EEC02DA }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_F44CC8FAE34444BCA665E557495F4DBD }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_E2C8046F20674FDE94A9A45888C5E891 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_6B1482E1C39B48AE86C8312CCB71762C }}
 
       - name: Set environment variables
         run: |
