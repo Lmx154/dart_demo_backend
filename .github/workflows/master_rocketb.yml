@@ -1,3 +1,6 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
 name: Build and deploy ASP.Net Core app to Azure Web App - rocketb
 
 on:
@@ -18,20 +21,17 @@ jobs:
         with:
           dotnet-version: '8.x'
 
-      - name: Restore with dotnet
-        run: dotnet restore ./dart_demo_backend.sln 
-
       - name: Build with dotnet
-        run: dotnet build ./dart_demo_backend.sln --configuration Release --no-restore
+        run: dotnet build --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish ./dart_demo_backend.sln --configuration Release --no-build --output "${{env.DOTNET_ROOT}}/dart_demo_backend"
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/dart_demo_backend
+          path: ${{env.DOTNET_ROOT}}/myapp
 
   deploy:
     runs-on: ubuntu-latest
@@ -55,11 +55,6 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_E2C8046F20674FDE94A9A45888C5E891 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_6B1482E1C39B48AE86C8312CCB71762C }}
 
-      - name: Set environment variables
-        run: |
-          echo "DEFAULT_CONNECTION=${{ secrets.DEFAULT_CONNECTION }}" >> $GITHUB_ENV
-          echo "WEBSITE_URL=${{ secrets.WEBSITE_URL }}" >> $GITHUB_ENV
-
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
@@ -67,3 +62,4 @@ jobs:
           app-name: 'rocketb'
           slot-name: 'Production'
           package: .
+          
