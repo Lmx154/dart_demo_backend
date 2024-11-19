@@ -30,6 +30,12 @@ jobs:
       - name: dotnet publish
         run: dotnet publish ./dart_demo_backend.sln --configuration Release --no-build --output "${{env.DOTNET_ROOT}}/dart_demo_backend"
 
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: .net-app
+          path: ${{env.DOTNET_ROOT}}/dart_demo_backend
+
   deploy:
     runs-on: windows-latest
     needs: build
