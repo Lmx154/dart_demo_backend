@@ -7,10 +7,21 @@ var builder = WebApplication.CreateBuilder(args);
 // Load environment variables from .env file
 Env.Load();
 
-// Configure the PostgreSQL database context
+// Add services to the container.
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+// Add a configuration variable for the website URL
+var websiteUrl = Environment.GetEnvironmentVariable("WEBSITE_URL") ?? 
+                 builder.Configuration["WebsiteUrl"];
+
+// Add the connection string
+var connectionString = Environment.GetEnvironmentVariable("DEFAULT_CONNECTION") ?? 
+                       builder.Configuration.GetConnectionString("DefaultConnection");
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(Environment.GetEnvironmentVariable("DefaultConnection") ?? 
-                      builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(connectionString));
 
 // Add CORS policy
 builder.Services.AddCors(options =>
@@ -20,16 +31,6 @@ builder.Services.AddCors(options =>
                           .AllowAnyMethod()
                           .AllowAnyHeader());
 });
-
-builder.Services.AddControllers();
-
-// Add Swagger services
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-// Add a configuration variable for the website URL
-var websiteUrl = Environment.GetEnvironmentVariable("WebsiteUrl") ?? 
-                 builder.Configuration["WebsiteUrl"];
 
 var app = builder.Build();
 
